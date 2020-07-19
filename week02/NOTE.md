@@ -15,9 +15,10 @@
 < PE Block > ::= "(" < PE > ")"
 < PE > ::= < Number > | < ME > | < AE > | < PE Block >
 ```
->AE: Add Expression (加法)
-ME: Mutiple Expression (乘法)
-PE: Parentheses Expression (括号)
+> AE: Add Expression (加法)
+> ME: Mutiple Expression (乘法)
+> PE: Parentheses Expression (括号)
+
 
 参考伪代码，BNF即描述编程语言中关键字、运算符行为的标准化的语言代码
 
