@@ -1,1 +1,99 @@
-学习笔记
+# 学习笔记
+
+## JS表达式
+
+- Member
+    - a.b
+    - a[b]
+    - foo'string'
+    - super.b
+    - super[ 'b' ]
+    - new.target
+    - new Foo()
+- Call
+    - foo()
+    - super()
+    - foo()['b']
+    - foo().b
+    - foo()'b'
+- Left Handside & Right Handside 
+- Update
+- Unary
+    - delete a.b
+    - void foo()
+    - typeof a
+    - +a
+    - -a
+    - ~a
+    - !a
+    - await a
+- Exponental
+    - **
+- Multiplicative
+    - *
+    - /
+    - %
+- Additive
+    - \+
+    - \-
+- Shift
+    - \>\>    
+    - <<
+    - \>\>\>
+- Relationship
+    - <
+    - \>
+    - <=
+    - \>=
+    - instanceof 
+    - in
+- Equality
+    - ==
+    - !=
+    - ===
+    - !==
+- Bitwise
+    - &
+    - ^
+    - \|
+- Logical
+    - &&
+    - ||
+- Conditional
+    - : ?
+    
+> todo: 类型转换关系表    
+
+## JS语句
+
+- Runtime
+    - Completion Record
+        - [[type]]
+        - [[value]]
+        - [[target]]
+    - Lexical Environment
+- SimpleStatement
+    - Expression
+    - Empty
+    - Debugger
+    - Throw
+    - Continue
+    - Break
+    - Return 
+- ComplexStatement
+    - Block
+    - If
+    - Switch
+    - Iteration
+    - With
+    - Labelled
+    - Try
+- Declaration
+    - Function
+    - Generator
+    - AsyncFunction
+    - AsyncGenerator
+    - Variable
+    - Class
+    - Lexical
+- Pre-process // JS会将var / Function声明预处理，将其执行顺序提前

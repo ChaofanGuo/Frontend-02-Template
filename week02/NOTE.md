@@ -9,13 +9,13 @@
 + [] 定义一个可选项
 + {} 定义一个项的重复次数
 
->```
+```
 < ME > ::= < Number > | < PE Block > | < ME > "*" < Number > | < ME > "/" < Number >
 < AE > ::= < ME > | < PE Block > | < AE > "+" < ME > | < AE > "-" < ME > |
 < PE Block > ::= "(" < PE > ")"
 < PE > ::= < Number > | < ME > | < AE > | < PE Block >
 ```
-AE: Add Expression (加法)
+>AE: Add Expression (加法)
 ME: Mutiple Expression (乘法)
 PE: Parentheses Expression (括号)
 
