@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="checkSelector()">test</button>
+<div id="id-1" class="class-1 class-2 class-3">content</div>
+<script>
+  function checkSelector() {
+    // debugger
+    let isMatch = match('div#id-1.class-1.class-2.class-3', document.querySelector('div#id-1.class-1.class-2.class-3'))
+    console.log(isMatch)
+  }
+
+  function match(selector, element) {
+    if (!selector || !element) return false
+
+    let selectorParts = selector.split(' ').reverse()
+    let tempElement = element
+    for (let selectorPart of selectorParts) {
+      if (selectorPart.indexOf('.') > 0 || selectorPart.indexOf('#') > 0) {
+        let isMatch = matchCombinedSelector(selectorPart, tempElement)
+        if (matchCombinedSelector(selectorPart, tempElement)) {
+          tempElement = tempElement.parentNode
+        } else {
+          return false
+        }
+      } else {
+        let isMatch = matchSelector(selectorParts, tempElement)
+        if (isMatch) {
+          tempElement = tempElement.parentNode
+        } else {
+          return false
+        }
+      }
+    }
+    return true
+  }
+
+  function matchSelector(selector, element) {
+    if (!selector || !element) return false
+
+    if (selector.startsWith('#')) {
+      return element.id === selector.substr(1)
+    } else if (selector.startsWith('.')) {
+      return element.class === selector.substr(1)
+    } else {
+      return element.tagName.toLowerCase() === selector.toLowerCase()
+    }
+  }
+
+  function matchCombinedSelector(selector, element) {
+    if (!selector || !element) return false
+
+    let selectorParts = {
+      tag: [],
+      id: [],
+      class: []
+    }
+    let state = 'tag',
+      text = ''
+    for (let s of selector) {
+      if (s === '#') {
+        selectorParts[state].push(text)
+        text = ''
+        state = 'id'
+      } else if (s === '.') {
+        selectorParts[state].push(text)
+        text = ''
+        state = 'class'
+      } else {
+        text += s
+      }
+    }
+    selectorParts[state].push(text)
+
+    let matches = 0
+    if (selectorParts.tag.length > 0 && selectorParts.tag[0].toLowerCase() !== element.tagName.toLowerCase()) {
+      return false
+    }
+    if (selectorParts.id.length > 0 && selectorParts.id.sort((a, b) => a.toString().localeCompare(b.toString())).join(' ') !== element.id.split(' ').sort((a, b) => a.toString().localeCompare(b.toString())).join(' ')) {
+      return false
+    }
+    if (selectorParts.class.length > 0 && selectorParts.class.sort((a, b) => a.toString().localeCompare(b.toString())).join(' ') !== element.className.split(' ').sort((a, b) => a.toString().localeCompare(b.toString())).join(' ')) {
+      return false
+    }
+    return true
+  }
+</script>
+</body>
+</html>

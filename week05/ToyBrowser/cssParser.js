@@ -33,6 +33,7 @@ function match(selector, element) {
         text += s
       }
     }
+    selectorParts[state].push(text)
     if (selectorParts.tag[0] !== element.tagName) {
       return false
     }
