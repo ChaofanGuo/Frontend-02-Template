@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TicTacToe</title>
+    <style>
+        #board {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            box-sizing: border-box;
+            border: 1px solid #ffffff;
+            background-color: skyblue;
+
+            line-height: 100px;
+            font-size: 50px;
+            text-align: center;
+            color: #ff3333;
+        }
+    </style>
+</head>
+<body>
+<div id="board"></div>
+<script>
+    let board = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0]
+    ]
+
+    let color = 1
+
+    function show(board) {
+      let boardDiv = document.getElementById('board')
+      boardDiv.innerHTML = ''
+
+      for(let i = 0; i < 3; i ++) {
+        for(let j = 0; j < 3; j ++) {
+          let cell = document.createElement('div')
+          cell.classList.add('cell')
+          cell.innerText = board[i][j] === 2 ? 'X' :
+            board[i][j] === 1 ? 'O' : ''
+          if (board[i][j] === 0) {
+            cell.addEventListener('click', () => userDrop(i, j))
+          }
+          boardDiv.appendChild(cell)
+        }
+      }
+    }
+
+    function userDrop(i, j) {
+      board[i][j] = color
+      show(board)
+      if (check(board, color)) {
+        let msg = color === 2 ? 'X is winner' : 'O is winner'
+        setTimeout(() => {
+          alert(msg)
+        }, 0)
+      } else if (board.flat().filter(item => item === 0).length === 0) {
+        setTimeout(() => {
+          alert('The game is draw')
+        }, 0)
+      } else {
+        if (willWin(board, color)) {
+          console.log(color === 2 ? 'X will win' : 'O will win')
+        }
+        color = 3 - color
+        computerDrop()
+      }
+    }
+
+    function computerDrop() {
+      let choice = bestChoice(board, color)
+      if (choice.point) {
+        board[choice.point[0]][choice.point[1]] = color
+      }
+      if (check(board, color)) {
+        let msg = color === 2 ? 'X is winner' : 'O is winner'
+        setTimeout(() => {
+          alert(msg)
+        }, 0)
+      } else if (board.flat().filter(item => item === 0).length === 0) {
+        setTimeout(() => {
+          alert('The game is draw')
+        }, 0)
+      }
+      show(board)
+      color = 3 - color
+    }
+
+    function check(board, color) {
+      for(let i = 0; i < 3; i ++) {
+        let win = true
+        for(let j = 0; j < 3; j ++) {
+          if (board[i][j] !== color) {
+            win = false
+          }
+        }
+        if (win) return true
+      }
+      for(let j = 0; j < 3; j ++) {
+        let win = true
+        for(let i = 0; i < 3; i ++) {
+          if (board[i][j] !== color) {
+            win = false
+          }
+        }
+        if (win) return true
+      }
+      {
+        let win = true
+        for(let i = 0; i < 3; i ++) {
+          if (board[i][i] !== color) {
+            win = false
+          }
+        }
+        if (win) return true
+      }
+      {
+        let win = true
+        for(let i = 0; i < 3; i ++) {
+          if (board[i][2 - i] !== color) {
+            return false
+          }
+        }
+        if (win) return true
+      }
+      return false
+    }
+
+    function clone(board) {
+      return JSON.parse(JSON.stringify(board))
+    }
+
+    function willWin(board, color) {
+      for(let i = 0; i < 3; i ++) {
+        for(let j = 0; j < 3; j ++) {
+          if (board[i][j]) continue
+          let temp = clone(board)
+          temp[i][j] = color
+          if (check(temp, color)) {
+            return [i, j]
+          }
+        }
+      }
+      return null
+    }
+
+    function bestChoice(board, color) {
+      let p = willWin(board, color)
+      if (p) {
+        return {
+          point: p,
+          result: 1
+        }
+      }
+
+      let result = -1
+      outer: for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j ++) {
+          if (board[i][j] !== 0) continue
+
+          let temp = clone(board)
+          temp[i][j] = color
+          let r = bestChoice(temp, 3 - color)
+          if (-r.result >= result) {
+            p = [i, j]
+            result = -r.result
+          }
+
+          if (result === 1) {
+            break outer
+          }
+        }
+      }
+
+      return {
+        point: p,
+        result: p ? result : 0
+      }
+    }
+
+    show(board)
+    console.log(bestChoice(board, color))
+</script>
+</body>
+</html>
