@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToyVue</title>
+</head>
+<body>
+<div id="app">
+    <div>data.message is {{message}}</div>
+    <label for="message">Update Message</label>
+    <input id="message" v-model="message"/>
+    <br />
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <br />
+    <span v-bind:title="spanTitle">Hover your mouse over me for a few seconds to see my dynamically bound title</span>
+</div>
+
+<script type="module">
+    import {ToyVue} from "./ToyVue.js";
+
+    let app = new ToyVue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue !',
+        spanTitle: `you loaded this page on ${new Date().toLocaleString()}`
+      },
+      methods: {
+        reverseMessage () {
+          this.message = [...this.message].reverse().join('')
+        }
+      }
+    })
+</script>
+</body>
+</html>
